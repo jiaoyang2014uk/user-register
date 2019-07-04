@@ -1,0 +1,153 @@
+<html>
+    <head>
+        <title>SignUp</title>
+        <link rel="stylesheet" href="format.css">
+    </head>
+    <body>
+        <h2>Register a new account</h1>
+        <h3>Already got an account?<a href="#">Sign in</a></h3>
+        <form action="#" id="signup" method="POST">
+            <p><label for="name">Name: </label><input type="text" name="name" data_validate="required min_2 max_5"></p>
+            <p><label for="email">Email: </label><input type="email" name="email" placeholder="e.g. name@example.com" data_validate="required email"></p>
+            <p><label for="password">Password: </label><input type="password" name="password" placeholder="password" id="password" data_validate="required min_6 max_10"></p>
+            <p><label for="repeatpassword">Repeat Password: </label><input type="password" name="repeatpassword" placeholder="repeat your password" data_validate="equal_password">
+            </p>
+            <input type="submit" value="SUBMIT">
+        </form>
+        <script>
+            window.onload = function () {
+                document.getElementById("register").onchange = validForm;
+                document.getElementById("register").onsubmit = validForm;
+            }
+            function validForm(){
+                var validateItems = this.querySelectorAll("[data_validate]");
+                for(var i = 0; i < validateItems.length; i++){
+                    var thisItem = validateItems[i];
+                    var validItems = thisItem.getAttribute("data_validate").split(" ");
+                    var invalid = true;
+                    rule:
+                    for (var j = 0; j< validItems.length; j++){
+                        var validName = validItems[j].split("_")[0];
+                        var validValue = validItems[j].split("_")[1];
+                        var classBack = " invalid ";
+                        var thisItemClass = thisItem.getAttribute("class");
+                        var thisItemName =  thisItem.getAttribute("name");
+                        switch(validName) {
+                            case "required": 
+                                if(!thisItem.value){
+                                    showErrMsg(thisItem, "This field is required");
+                                    thisItemClass += classBack;
+                                    thisItem.setAttribute("class", thisItemClass);
+                                    var thisLabel = document.querySelector("label[for=" + thisItemName + "]");
+                                    var thisLabelClass = thisLabel.getAttribute("class");
+                                    thisLabelClass += classBack;
+                                    thisLabel.setAttribute("class", thisLabelClass);
+                                    invalid = false;
+                                    break rule;
+                                } 
+                                break;                            
+                            case "min": 
+                                if(thisItem.value.length < validValue){
+                                    var msg = "This field must less than " + validValue + " characters";
+                                    showErrMsg(thisItem, msg);
+                                    thisItemClass += classBack;
+                                    thisItem.setAttribute("class", thisItemClass);
+                                    var allLabels = document.getElementsByTagName("label")
+                                    for(var k = 0; k < allLabels.length; k++){
+                                        var thisLabel =  allLabels[i];
+                                        if(thisLabel.getAttribute("for") == thisItemName){
+                                            var thisLabelClass = thisLabel.getAttribute("class");
+                                            thisLabelClass += classBack;
+                                            thisLabel.setAttribute("class", thisLabelClass);
+                                        }
+                                    }
+                                    invalid = false;
+                                    break rule;
+                                }
+                                break;                           
+                            case "max": 
+                                if(thisItem.value.length > validValue) {
+                                    var msg = "This field must more than " + validValue + " characters";
+                                    showErrMsg(thisItem, msg);
+                                    thisItemClass += classBack;
+                                    thisItem.setAttribute("class", thisItemClass);
+                                    var allLabels = document.getElementsByTagName("label")
+                                    for(var k = 0; k < allLabels.length; k++){
+                                        var thisLabel =  allLabels[i];
+                                        if(thisLabel.getAttribute("for") == thisItemName){
+                                            var thisLabelClass = thisLabel.getAttribute("class");
+                                            thisLabelClass += classBack;
+                                            thisLabel.setAttribute("class", thisLabelClass);
+                                        }
+                                    }
+                                    invalid = false;
+                                    break rule;
+                                }
+                                break;
+                            case "email": 
+                                var re= /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+                                if(!re.test(thisItem.value)) {
+                                    showErrMsg(thisItem, "Please enter a valid email address");
+                                    thisItemClass += classBack;
+                                    thisItem.setAttribute("class", thisItemClass);
+                                    var allLabels = document.getElementsByTagName("label")
+                                    for(var k = 0; k < allLabels.length; k++){
+                                        var thisLabel =  allLabels[i];
+                                        if(thisLabel.getAttribute("for") == thisItemName){
+                                            var thisLabelClass = thisLabel.getAttribute("class");
+                                            thisLabelClass += classBack;
+                                            thisLabel.setAttribute("class", thisLabelClass);
+                                        }
+                                    }
+                                    invalid = false;
+                                    break rule;
+                                }
+                                break;
+                            case "equal": 
+                                if(!(thisItem.value == document.getElementById(validValue).value)){
+                                    showErrMsg(thisItem, "This field must be as same as " + validValue + " field");
+                                    thisItemClass += classBack;
+                                    thisItem.setAttribute("class", thisItemClass);
+                                    var allLabels = document.getElementsByTagName("label")
+                                    for(var k = 0; k < allLabels.length; k++){
+                                        var thisLabel =  allLabels[i];
+                                        if(thisLabel.getAttribute("for") == thisItemName){
+                                            var thisLabelClass = thisLabel.getAttribute("class");
+                                            thisLabelClass += classBack;
+                                            thisLabel.setAttribute("class", thisLabelClass);
+                                        }
+                                    }
+                                    invalid = false;
+                                    break rule;
+                                }
+                                break;
+                            default:
+                        }
+                    }
+                    if (invalid) {
+                        clearErrMsg(thisItem);
+                     }
+                }
+                return false;
+            }
+
+            function showErrMsg(elem, errMsg){
+                clearErrMsg(elem);
+                var errNode =  document.createElement("i");
+                var errMsg = document.createTextNode(errMsg);
+                errNode.setAttribute("class", "err-tips");
+                errNode.appendChild(errMsg);
+                elem.parentNode.appendChild(errNode);
+            }
+
+            function clearErrMsg(elem) {
+                var elems = elem.parentNode.getElementsByClassName("err-tips");
+                if(elems.length > 0){
+                    for (var i = 0; i < elems.length; i++){
+                        elem.parentNode.removeChild(elems[i]);
+                    } 
+                }
+            }
+        </script>
+    </body>
+</html>

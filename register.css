@@ -1,0 +1,20 @@
+body.register {background: rgb(246, 246, 246); color: #333;}
+h1 {padding: 5px 0;}
+.tips p {font-size: 16px; font-weight: bold; margin-bottom: 10px;}
+.tips p a {color: #00539f}
+.container{width: 640px; margin: auto;}
+.container form{border: 1px solid #ddd; background: #fff; padding: 25px 100px;;}
+.container form p {padding: 5px 0;}
+.container form label {line-height: 35px; font-weight: bold;}
+.container form input {display: block; height: 40px; width: 100%; padding: 0 8px; font-size: 14px; line-height: 38px; color: #555; outline: none; border: 1px solid #ccc; background: transparent; transition: all .3s ease-in;}
+.container form input:focus{box-shadow: 0 0 0 4px rgba(0,141,200,.4); border-color: #009cda;}
+.container form input:focus::placeholder{color: transparent;}
+.container form input[type="submit"]{width: 210px; height: 40px; border: none; background: #00539f; color: #fff; border-radius: 20px; margin-top: 20px; margin-bottom: 20px; font-weight: bold; cursor: pointer;}
+
+.container form i.err-tips {color: red;}
+
+
+
+/* .container form input.invalid{border:1px #c33 solid;}
+.container form input.invalid:focus{box-shadow: 0 0 0 4px rgba(204,51,51,.2)}
+.container form label.invalid{color:#c33; font-weight: bold;} */

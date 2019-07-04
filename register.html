@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>register</title>
+    <link rel="stylesheet" href="base.css">
+    <link rel="stylesheet" href="register.css">
+    <!-- <script src="formcheck.js"></script> -->
+</head>
+<body class="register">
+    <div class="container">
+        <h1>Please register your account.</h1>
+        <div class="tips">
+            <p><a href="/login">Already got an account? Sign in ></a></p>
+        </div>
+        <form action="" id="registerForm">
+            <p>
+                <label for="username">Name:</label>
+                <input type="text" name="user_name" placeholder="user name"  data-validate="required min_2 max_10">
+            </p>
+            <p>
+                <label for="email">Email:</label>
+                <input type="text" name="email" placeholder="e.g. name@example.com" data-validate="required email">
+            </p>
+            <p>
+                <label for="pwd">Password:</label>
+                <input type="password" name="password" id="password" placeholder="password" data-validate="required min_6 max_10">
+                
+            </p>
+            <p><label for="repwd">Repeat Password:</label>
+                <input type="password" name="repeat_password" placeholder="repeat password" data-validate="equal_password">
+            </p>
+            <input type="submit" value="REGISTER">
+        </form>
+    </div>
+    <script>
+        window.onload = function(){
+            thisForm = document.forms[0];
+            thisForm.onchange = uniValidate;
+            thisForm.onsubmit = uniValidate;
+
+        };
+        // 通用校验
+        function uniValidate(){
+            var validateItems = this.querySelectorAll("[data-validate]");
+            for (var i = 0; i < validateItems.length; i++) {
+                var thisItem = validateItems[i];
+                var rules = thisItem.getAttribute("data-validate").split(" ");
+                var invalid = true;
+                rluefor:
+                for (var j = 0; j < rules.length; j++) {
+                    var thisRule = rules[j];
+                    var ruleName = thisRule.split("_")[0];
+                    var ruleValue = thisRule.split("_")[1];
+                    switch (ruleName) {
+                        case "required":
+                            if (!thisItem.value){
+                                showErrTip(thisItem, "this field is required");
+                                invalid = false;
+                                break rluefor;
+                            }
+                            break;
+                        case "min":
+                            if(thisItem.value.length < ruleValue) {
+                                showErrTip(thisItem, "this field can not less than " + ruleValue);
+                                invalid = false;
+                                break rluefor;
+                            }
+                            break;
+                        case "max":
+                            if(thisItem.value.length > ruleValue) {
+                                showErrTip(thisItem, "this field can not more than " + ruleValue);
+                                invalid = false;
+                                break rluefor;
+                            }
+                            break;
+                        case "email":
+                            var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+                            if(!re.test(thisItem.value)) {
+                                showErrTip(thisItem, "Please enter a valid email address: e.g. name@example.com");
+                                invalid = false;
+                                break rluefor;
+                            }
+                        case "equal":
+                            var otherValue = document.getElementById(ruleValue).value;
+                            if(!(thisItem.value == otherValue)){
+                                showErrTip(thisItem, "This field should be as the same as " + ruleValue + " field");
+                                invalid = false;
+                                break rluefor;
+                            }
+                        default:
+                    }
+                }
+                if (invalid) {
+                    clearErrTip(thisItem);
+                }
+            }
+            return false;
+        }
+
+
+        // 显示校验错误提示
+        function showErrTip(elem, errMsg) {
+            clearErrTip(elem);
+            var errMsgNode = document.createTextNode(errMsg);
+            var errEle = document.createElement("i");
+            errEle.setAttribute("class", "err-tips");
+            errEle.appendChild(errMsgNode);
+            elem.parentNode.appendChild(errEle);
+        }
+
+        // 清理错误提示
+        function clearErrTip(elem) {
+            var errEles = elem.parentNode.getElementsByClassName("err-tips");
+            if (errEles.length > 0) {
+                for (var i = 0; i < errEles.length; i++) {
+                    elem.parentNode.removeChild(errEles[i]);
+                }
+            }
+        }
+    </script>
+</body>
+</html>

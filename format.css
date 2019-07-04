@@ -1,0 +1,27 @@
+body,p,h1,h2,h3,h4,h5,h6,ul,ol,dl,li,dt,dd,input,img{
+    /* 默认有边距，都要清除 */
+    margin: 0;
+    padding: 0;
+    /*字体设置*/
+    font-family: "Microsoft Yahei",sans-serif;
+    /* 去掉列表的原点 */
+    list-style: none;
+    /* 默认鼠标 */
+    cursor: default;
+    outline: none;
+}
+
+body {width: 600px; margin: auto;}
+h2 {margin-bottom: 27px;}
+h3 {margin-bottom: 17px;}
+form {border: 1px solid #ccc; padding: 20px 60px;}
+p {margin-top: 10px;}
+input {display: block; margin-top: 10px; width: 250px; height: 40px; transition: all .3s ease-in; padding: 10px;}
+input:focus {box-shadow: 0 0 0 4px rgba(0,141,200,.4); border-color: #009cda; border: none;}
+input:focus::placeholder {color: transparent;}
+i.err-tips, label.invalid {color: #c33; font-style: normal;}
+input[type="submit"] {margin-top: 20px; border-radius: 20px; background: #00539f; border: 2px solid #00539f; width: 150px; color: #fff;}
+input.invalid {border: 1px solid #c33;}
+input:focus.invalid {box-shadow: 0 0 0 4px rgba(204,51,51,.2);}
+
+
